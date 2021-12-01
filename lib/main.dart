@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:volo_consumer/screens/splash/splash_screen.dart';
 import 'package:volo_consumer/services/navigation_service.dart';
+import 'package:volo_consumer/services/services.dart';
 import 'package:volo_consumer/utils/configs/router.dart';
 import 'package:volo_consumer/utils/init.dart';
 import 'package:volo_consumer/utils/locator.dart';
@@ -41,15 +43,18 @@ class MyApp extends StatelessWidget {
 
           return ScreenUtilInit(
             designSize: const Size(500, 2000),
-            builder: () => MaterialApp(
-              debugShowCheckedModeBanner: false,
-              navigatorKey: locator.get<NavigationService>().navigationKey,
-              title: 'VOLODeals Consumer App',
-              theme: ThemeData(
-                primarySwatch: Colors.blue,
-              ),
-              initialRoute: _initRoute,
-              onGenerateRoute: AppRouter.onGenerateRoute,
+            builder: () => BlocBuilder<ThemeCubit, ThemeState>(
+              bloc: ThemeCubit(),
+              builder: (context, state) {
+                return MaterialApp(
+                  debugShowCheckedModeBanner: false,
+                  navigatorKey: locator.get<NavigationService>().navigationKey,
+                  title: 'VOLODeals Consumer App',
+                  theme: state.themeData,
+                  initialRoute: _initRoute,
+                  onGenerateRoute: AppRouter.onGenerateRoute,
+                );
+              },
             ),
           );
         } else {

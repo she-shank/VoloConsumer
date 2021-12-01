@@ -7,6 +7,7 @@ final locator = GetIt.instance;
 class ServiceLocator {
   static void registerLocator() {
     // Services
+    locator.registerSingleton(() => ThemeService());
     locator.registerSingleton<AuthenticationService>(
         AuthenticationService.instance);
     locator.registerLazySingleton<DatabaseService>(() => DatabaseService());
