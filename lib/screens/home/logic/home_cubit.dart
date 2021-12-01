@@ -10,6 +10,7 @@ import 'package:tuple/tuple.dart';
 import 'package:volo_consumer/services/services.dart';
 import 'package:volo_consumer/utils/datamodels/datamodels.dart';
 import 'package:volo_consumer/utils/constants/categories.dart';
+import 'package:volo_consumer/widgets/stateful_list_tile.dart';
 
 part 'home_state.dart';
 part 'home_cubit.freezed.dart';
@@ -19,6 +20,12 @@ class HomeCubit extends Cubit<HomeState> {
   final AuthenticationService _auth =
       GetIt.instance.get<AuthenticationService>();
   final NavigationService _nav = GetIt.instance.get<NavigationService>();
+
+  //TODO: change unnecccessary globalkey to local or object key
+  final GlobalKey<ScaffoldState> _drawerKey = GlobalKey<ScaffoldState>();
+  GlobalKey<ScaffoldState> get drawerKey => _drawerKey;
+  final GlobalKey<StfulListTileState> logOutListTileKey =
+      GlobalKey<StfulListTileState>();
 
   String get currentUsername => _auth.activeUser!.username;
   Enduser get currentUser => _auth.activeUser!;
@@ -159,5 +166,20 @@ class HomeCubit extends Cubit<HomeState> {
     } else {
       return const TextStyle();
     }
+  }
+
+  void openDrawer() {
+    _drawerKey.currentState!.openDrawer();
+  }
+
+  void logOut() async {
+    logOutListTileKey.currentState!.toggleEnable();
+    await _auth.signOut().fold((left) {
+      //make a toast instead of navigating
+      //_nav.pushreplacementNamed(routeName: '/error');
+      logOutListTileKey.currentState!.toggleEnable();
+    }, (right) {
+      _nav.pushreplacementNamed(routeName: '/login');
+    });
   }
 }

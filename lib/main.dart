@@ -10,6 +10,8 @@ import 'package:volo_consumer/utils/locator.dart';
 //TODO: make global theme Service
 //TODO: make login ND SIGNUP and intro screen
 //TODO: setup native splash, app icon, app name
+//TODO: implement PostFrontEnd
+//TODO: change mRating type to double from String in post datamodel class
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();

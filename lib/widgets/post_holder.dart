@@ -9,7 +9,6 @@ import 'package:volo_consumer/utils/datamodels/post.dart';
 import 'package:volo_consumer/widgets/shimmer_shape.dart';
 
 class PostHolder extends StatelessWidget {
-  final double pad = 10;
   final Post post;
   const PostHolder({Key? key, required this.post}) : super(key: key);
 
@@ -21,9 +20,9 @@ class PostHolder extends StatelessWidget {
         children: [
           Padding(
             padding: EdgeInsets.fromLTRB(
-              pad,
+              10,
               0,
-              pad,
+              10,
               0,
             ),
             child: Row(children: [
@@ -32,10 +31,10 @@ class PostHolder extends StatelessWidget {
                 child: Row(
                   children: [
                     CircleAvatar(
-                      radius: 4 * pad,
+                      radius: 4 * 10,
                       backgroundImage: NetworkImage(post.mPhotoURL),
                     ),
-                    SizedBox(width: pad),
+                    SizedBox(width: 10),
                     Text(post.mUsername),
                   ],
                 ),
@@ -67,7 +66,7 @@ class PostHolder extends StatelessWidget {
             children: [
               IconButton(icon: Icon(Icons.thumb_up_outlined), onPressed: () {}),
               SizedBox(
-                width: pad,
+                width: 10,
               ),
               Text.rich(
                 TextSpan(

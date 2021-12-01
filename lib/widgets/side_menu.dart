@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:volo_consumer/screens/home/logic/home_cubit.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:volo_consumer/widgets/stateful_list_tile.dart';
 
 //TODO : use cubit for getting user
 
@@ -8,6 +11,7 @@ class SideMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
+      key: context.read<HomeCubit>().drawerKey,
       child: Column(
         children: <Widget>[
           Padding(
@@ -48,10 +52,8 @@ class SideMenu extends StatelessWidget {
             title: Text('Contact Us'),
             onTap: () => {Navigator.of(context).pop()},
           ),
-          ListTile(
-            leading: Icon(Icons.exit_to_app),
-            title: Text('Logout'),
-            onTap: () async {},
+          StfulListTile(
+            key: context.read<HomeCubit>().logOutListTileKey,
           ),
         ],
       ),
