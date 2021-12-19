@@ -27,13 +27,14 @@ class DatabaseService {
     required String mUsername,
     required String mPhotoURL,
     required String mRating,
-    required String createDT,
+    required DateTime createDT,
     required String pImageURL,
+    required String mGeoHash,
     required int pCat,
     required int likeCount,
   }) async {
     try {
-      String tempID = _db.collection("").doc().id;
+      String tempID = _db.collection("Posts").doc().id;
       Post tempPost = Post(
           pID: tempID,
           profileID: profileID,
@@ -41,6 +42,7 @@ class DatabaseService {
           mPhotoURL: mPhotoURL,
           mRating: mRating,
           createDT: createDT,
+          mGeoHash: mGeoHash,
           pImageURL: pImageURL,
           pCat: pCat,
           likeCount: likeCount);
@@ -118,12 +120,11 @@ class DatabaseService {
     required String mProfileDesc,
     required String mAddress,
     required String mContactNumber,
-    required double mLat,
-    required double mLong,
+    required GeoPoint mGeoPoint,
     List<String>? carouselImageURLs = const <String>[],
   }) async {
     try {
-      String tempID = _db.collection("").doc().id;
+      String tempID = _db.collection("Profiles").doc().id;
       Profile profile = Profile(
           profileID: tempID,
           mID: mID,
@@ -131,8 +132,7 @@ class DatabaseService {
           mProfileDesc: mProfileDesc,
           mAddress: mAddress,
           mContactNumber: mContactNumber,
-          mLat: mLat,
-          mLong: mLong,
+          mGeoPoint: mGeoPoint,
           mRating: 0.0,
           totalLikeCount: 0,
           reviewCount: 0,

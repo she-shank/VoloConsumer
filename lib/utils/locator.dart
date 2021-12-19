@@ -7,13 +7,14 @@ final locator = GetIt.instance;
 class ServiceLocator {
   static void registerLocator() {
     // Services
-    locator.registerSingleton(() => ThemeService());
-    locator.registerSingleton<AuthenticationService>(
-        AuthenticationService.instance);
     locator.registerLazySingleton<DatabaseService>(() => DatabaseService());
+    locator.registerSingletonAsync<AuthenticationService>(
+        () => AuthenticationService.initialize());
     locator.registerLazySingleton<CloudStorageService>(
         () => CloudStorageService());
     locator.registerLazySingleton<NavigationService>(() => NavigationService());
+
+    locator.registerLazySingleton<ThemeService>(() => ThemeService());
 
     //Cubits
     locator.registerLazySingleton<ProfileCubit>(() => ProfileCubit());

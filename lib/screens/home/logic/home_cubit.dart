@@ -2,12 +2,14 @@
 
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dart_geohash/dart_geohash.dart';
 import 'package:either_dart/either.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:get_it/get_it.dart';
 import 'package:tuple/tuple.dart';
 import 'package:volo_consumer/services/services.dart';
+import 'package:volo_consumer/temp_models.dart';
 import 'package:volo_consumer/utils/datamodels/datamodels.dart';
 import 'package:volo_consumer/utils/constants/categories.dart';
 import 'package:volo_consumer/widgets/stateful_list_tile.dart';
@@ -22,13 +24,17 @@ class HomeCubit extends Cubit<HomeState> {
   final NavigationService _nav = GetIt.instance.get<NavigationService>();
 
   //TODO: change unnecccessary globalkey to local or object key
-  final GlobalKey<ScaffoldState> _drawerKey = GlobalKey<ScaffoldState>();
-  GlobalKey<ScaffoldState> get drawerKey => _drawerKey;
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  GlobalKey<ScaffoldState> get scaffoldKey => _scaffoldKey;
   final GlobalKey<StfulListTileState> logOutListTileKey =
       GlobalKey<StfulListTileState>();
 
-  String get currentUsername => _auth.activeUser!.username;
+  String get currentUsername =>
+      _auth.activeUser != null ? _auth.activeUser!.username : "";
   Enduser get currentUser => _auth.activeUser!;
+
+  // String get currentUsername => "Rahul";
+  // Enduser get currentUser => tempUser;
 
   DocumentSnapshot? _lastDoc;
   List<HomeState?> _savedStates = List.filled(categories.length, null);
@@ -55,10 +61,14 @@ class HomeCubit extends Cubit<HomeState> {
       _lastDoc = right.item2;
       emit(HomeState.ready(posts: right.item1, cat: 0));
     });
+    await Future.delayed(const Duration(seconds: 5));
+    //emit(HomeState.ready(posts: tempPostList, cat: 0));
   }
 
   HomeCubit() : super(const HomeState.loading()) {
+    print("Here");
     _initializeCubit();
+    print("Here");
   }
 
   @override
@@ -90,12 +100,28 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   void requestMorePosts() async {
-    int catt = state.maybeMap(ready: (ready) => ready.cat, orElse: () => -1);
-    await _getPosts(catt != 0 ? catt : null, _lastDoc)
-        .fold((left) => print(left), (right) {
+    List<Post>? result;
+    int catt = state.maybeMap(
+        ready: (ready) {
+          return ready.cat;
+        },
+        orElse: () => -1);
+    await _getPosts(catt != 0 ? catt : null, _lastDoc).fold((left) {
+      print(left);
+    }, (right) {
+      result = right.item1;
       _lastDoc = right.item2;
-      emit(HomeState.ready(posts: right.item1, cat: catt));
     });
+    state.maybeMap(
+      ready: (Ready readyState) {
+        List<Post>? templist = readyState.posts;
+        if (result != null) {
+          templist.addAll(result!);
+        }
+        emit(HomeState.ready(posts: templist, cat: catt));
+      },
+      orElse: () {},
+    );
   }
 
   void changeCategory(int newCat) async {
@@ -134,14 +160,14 @@ class HomeCubit extends Cubit<HomeState> {
 
     if (_readyState != null) {
       if (_readyState!.cat == index) {
-        const BoxDecoration(
+        return const BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(10)),
           gradient: LinearGradient(
             begin: Alignment.bottomLeft,
             end: Alignment.topRight,
             colors: [
               Colors.pink,
-              Colors.blue,
+              Colors.purple,
             ],
           ),
         );
@@ -159,17 +185,27 @@ class HomeCubit extends Cubit<HomeState> {
 
     if (_readyState != null) {
       if (_readyState!.cat == index) {
-        return const TextStyle();
+        return const TextStyle(
+          color: Colors.white,
+          fontSize: 18,
+          fontWeight: FontWeight.bold,
+        );
       } else {
-        return const TextStyle();
+        return const TextStyle(
+          fontSize: 17,
+          color: Colors.black,
+        );
       }
     } else {
-      return const TextStyle();
+      return const TextStyle(
+        fontSize: 17,
+        color: Colors.grey,
+      );
     }
   }
 
   void openDrawer() {
-    _drawerKey.currentState!.openDrawer();
+    _scaffoldKey.currentState!.openDrawer();
   }
 
   void logOut() async {
@@ -181,5 +217,25 @@ class HomeCubit extends Cubit<HomeState> {
     }, (right) {
       _nav.pushreplacementNamed(routeName: '/login');
     });
+  }
+
+  void devFunc() async {
+    // final CloudStorageService _storage =
+    //     GetIt.instance.get<CloudStorageService>();
+    print("here 1");
+    (await _db.addPost(
+            profileID: "WNJ9ym91FfwphDEKf6WE",
+            mUsername: "voloDev",
+            mPhotoURL:
+                "https://firebasestorage.googleapis.com/v0/b/volodeals.appspot.com/o/Profiles%2FindUY4ni6KNWwmlKSWROIcaq5j93%2Fdp.jpg?alt=media&token=2ffd5206-4c46-400a-bd23-41f34503144b",
+            mRating: "0.0",
+            createDT: DateTime.now(),
+            pImageURL:
+                "https://firebasestorage.googleapis.com/v0/b/volodeals.appspot.com/o/Posts%2Fcoffee.jpg?alt=media&token=720eb784-488a-48d7-bc1e-cd221ec74110",
+            mGeoHash: GeoHash.fromDecimalDegrees(81.0001, 26.8530).geohash,
+            pCat: 0,
+            likeCount: 0))
+        .fold((String s) => print(s), (bool b) => print(b));
+    print("here 2");
   }
 }

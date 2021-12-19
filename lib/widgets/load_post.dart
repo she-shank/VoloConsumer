@@ -15,13 +15,18 @@ class _LoadPostWidgetState extends State<LoadPostWidget> {
   @override
   void initState() {
     super.initState();
-    widget.requestPosts();
+    //widget.requestPosts();
   }
 
   @override
   Widget build(BuildContext context) {
     return const Center(
-      child: CircularProgressIndicator(),
+      child: Padding(
+        padding: EdgeInsets.all(20),
+        child: CircularProgressIndicator(
+          color: Colors.white,
+        ),
+      ),
     );
   }
 }

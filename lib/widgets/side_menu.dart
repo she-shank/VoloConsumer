@@ -11,7 +11,6 @@ class SideMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      key: context.read<HomeCubit>().drawerKey,
       child: Column(
         children: <Widget>[
           Padding(

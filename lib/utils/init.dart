@@ -16,15 +16,15 @@ class Init {
 
   Future<String> initialize() async {
     await _registerServices();
-    await _registerServices();
     await _loadSettings();
-    return _loadInitialRoute();
+    return await _loadInitialRoute();
   }
 
   static Future<void> _registerServices() async {
     WidgetsFlutterBinding.ensureInitialized();
     await Firebase.initializeApp();
     ServiceLocator.registerLocator();
+    await GetIt.instance.allReady();
     //Bloc.observer = MyBlocObserver();
     _prefs = await SharedPreferences.getInstance();
   }
@@ -32,11 +32,12 @@ class Init {
   static Future<void> _loadSettings() async {
     _userSeenIntro = _prefs.getBool('USER_SEEN_INTRO') ?? false;
     //check here if the user is signed in or not
-    _userSignedIn =
-        GetIt.instance.get<AuthenticationService>().activeUser != null;
+    AuthenticationService _auth =
+        await GetIt.instance.getAsync<AuthenticationService>();
+    _userSignedIn = _auth.isUserSignedIn;
   }
 
-  static String _loadInitialRoute() {
+  static Future<String> _loadInitialRoute() async {
     if (_userSeenIntro && _userSignedIn) {
       return "/home";
     } else if (_userSeenIntro && !_userSignedIn) {
@@ -44,7 +45,7 @@ class Init {
     } else {
       //await can be used but not bcoz the below line does just needs to be completed once
       //use await and check for error
-      _prefs.setBool('USER_SEEN_INTRO', true);
+      await _prefs.setBool('USER_SEEN_INTRO', true);
       return "/intro";
     }
   }

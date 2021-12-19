@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:volo_consumer/screens/home/logic/home_cubit.dart';
+import 'package:volo_consumer/screens/login/logic/login_cubit.dart';
+import 'package:volo_consumer/screens/signup/logic/signup_cubit.dart';
 import 'package:volo_consumer/screens/splash/splash_screen.dart';
 import 'package:volo_consumer/services/navigation_service.dart';
 import 'package:volo_consumer/services/services.dart';
@@ -46,13 +49,21 @@ class MyApp extends StatelessWidget {
             builder: () => BlocBuilder<ThemeCubit, ThemeState>(
               bloc: ThemeCubit(),
               builder: (context, state) {
-                return MaterialApp(
-                  debugShowCheckedModeBanner: false,
-                  navigatorKey: locator.get<NavigationService>().navigationKey,
-                  title: 'VOLODeals Consumer App',
-                  theme: state.themeData,
-                  initialRoute: _initRoute,
-                  onGenerateRoute: AppRouter.onGenerateRoute,
+                return MultiBlocProvider(
+                  providers: [
+                    BlocProvider(create: (_) => HomeCubit()),
+                    BlocProvider(create: (context) => LoginCubit()),
+                    BlocProvider(create: (context) => SignupCubit()),
+                  ],
+                  child: MaterialApp(
+                    debugShowCheckedModeBanner: false,
+                    navigatorKey:
+                        locator.get<NavigationService>().navigationKey,
+                    title: 'VOLODeals Consumer App',
+                    theme: state.themeData,
+                    initialRoute: _initRoute,
+                    onGenerateRoute: AppRouter.onGenerateRoute,
+                  ),
                 );
               },
             ),

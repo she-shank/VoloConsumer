@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:volo_consumer/utils/datamodels/datamodels.dart';
 
 Post tempPost_1 = Post(
@@ -6,8 +7,9 @@ Post tempPost_1 = Post(
     mUsername: "Sunny Mobile Repair",
     mPhotoURL: "http://placekitten.com/200/300",
     mRating: "4.5",
-    createDT: DateTime.now().toString(),
+    createDT: DateTime.now(),
     pImageURL: "http://placekitten.com/400/400",
+    mGeoHash: "e9ss",
     pCat: 0,
     likeCount: 23);
 
@@ -17,8 +19,9 @@ Post tempPost_2 = Post(
     mUsername: "Bhasin Brothers",
     mPhotoURL: "http://placekitten.com/200/300",
     mRating: "3.0",
-    createDT: DateTime.now().toString(),
+    createDT: DateTime.now(),
     pImageURL: "http://placekitten.com/400/400",
+    mGeoHash: "e9ss",
     pCat: 1,
     likeCount: 23);
 
@@ -28,8 +31,9 @@ Post tempPost_3 = Post(
     mUsername: "Service Center",
     mPhotoURL: "http://placekitten.com/200/300",
     mRating: "4.5",
-    createDT: DateTime.now().toString(),
+    createDT: DateTime.now(),
     pImageURL: "http://placekitten.com/400/400",
+    mGeoHash: "e9ss",
     pCat: 2,
     likeCount: 23);
 
@@ -43,8 +47,7 @@ Profile tempProfile = Profile(
         "Lorem ipsum dolor sit amet, consectetur adiscing elit. Etiam accumsan, urna vel suscipit feugiat, erat sapien arcu, a sodales leo libero ac mauris. Duis ornare turpis ut orci vehicula iaculis.",
     mAddress: "Patrakarpuram, Lucknow",
     mContactNumber: "1231231231",
-    mLat: 2.2,
-    mLong: 2.2,
+    mGeoPoint: GeoPoint(100.4, 49.1),
     mRating: 4.2,
     totalLikeCount: 2300,
     reviewCount: 10);

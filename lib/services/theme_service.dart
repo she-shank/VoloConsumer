@@ -13,7 +13,11 @@ class ThemeCubit extends Cubit<ThemeState> {
   ThemeCubit()
       : super(ThemeState(
             themeData: AppThemes.appThemeData[
-                GetIt.instance.get<ThemeService>().getInitialTheme()]!));
+                GetIt.instance.get<ThemeService>().getInitialTheme()
+                // AppTheme.lightTheme
+                ]!));
+
+  //Create func to change themes
 }
 
 class ThemeState {

@@ -7,20 +7,31 @@ import 'package:volo_consumer/utils/datamodels/enduser.dart';
 import 'package:get_it/get_it.dart';
 
 class AuthenticationService {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  final DatabaseService _dbService = GetIt.instance.get<DatabaseService>();
+  static final FirebaseAuth _auth = FirebaseAuth.instance;
+  static final DatabaseService _dbService =
+      GetIt.instance.get<DatabaseService>();
 
   Enduser? _activeUser;
   Enduser? get activeUser => _activeUser;
   bool get isUserSignedIn => _auth.currentUser == null ? false : true;
 
-  AuthenticationService._() {
-    _init();
+  AuthenticationService._();
+  static Future<AuthenticationService> initialize() async {
+    var instance = AuthenticationService._();
+    await instance.init();
+    return instance;
   }
-  static final instance = AuthenticationService._();
-  //AuthenticationService get instance => _instance;
 
-  void _init() {
+  // static final _instance = AuthenticationService._();
+  // static AuthenticationService get instance => _instance;
+  Future<void> init() async {
+    print(isUserSignedIn);
+    print(_auth.currentUser);
+    _activeUser = isUserSignedIn
+        ? await _dbService
+            .getUser(_auth.currentUser!.uid)
+            .fold((left) => null, (right) => right)
+        : null;
     _auth.authStateChanges().listen((user) async {
       if (user == null) {
         _activeUser = null;

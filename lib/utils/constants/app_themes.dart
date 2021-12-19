@@ -6,19 +6,24 @@ class AppThemes {
 
   static final Map<AppTheme, ThemeData> appThemeData = {
     AppTheme.lightTheme: ThemeData(
-      scaffoldBackgroundColor: Colors.white,
-      primarySwatch: Colors.blue,
-      backgroundColor: Colors.white,
+      scaffoldBackgroundColor: Colors.grey,
+      primaryColor: Colors.white,
+      backgroundColor: Colors.red,
+      accentColor: Colors.amberAccent,
+      appBarTheme: AppBarTheme(
+        centerTitle: true,
+      ),
       textTheme: const TextTheme(
         bodyText1: TextStyle(
-          color: Colors.black,
+          color: Colors.yellow,
         ),
       ),
     ),
     AppTheme.darkTheme: ThemeData(
-      scaffoldBackgroundColor: Colors.black,
+      scaffoldBackgroundColor: Colors.grey,
       primarySwatch: Colors.teal,
       backgroundColor: Colors.black,
+      accentColor: Colors.amberAccent,
       textTheme: const TextTheme(
         bodyText1: TextStyle(
           color: Colors.white,

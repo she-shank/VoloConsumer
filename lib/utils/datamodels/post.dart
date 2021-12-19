@@ -9,12 +9,13 @@ class Post {
   final String mUsername;
   final String mPhotoURL;
   final String mRating;
-  final String createDT;
+  final DateTime createDT;
   final String pImageURL;
+  final String mGeoHash;
   final int pCat;
   final int likeCount;
 
-  Post({
+  const Post({
     required this.pID,
     required this.profileID,
     required this.mUsername,
@@ -22,6 +23,7 @@ class Post {
     required this.mRating,
     required this.createDT,
     required this.pImageURL,
+    required this.mGeoHash,
     required this.pCat,
     required this.likeCount,
   });

@@ -3,6 +3,7 @@ import 'package:volo_consumer/screens/intro/intro_screen.dart';
 import 'package:volo_consumer/screens/login/login_screen.dart';
 import 'package:volo_consumer/screens/profile/profile_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:volo_consumer/screens/signup/signup_screen.dart';
 
 //TODO: reove redundant code by making proper error screen
 
@@ -15,6 +16,9 @@ class AppRouter {
 
       case "/login":
         return MaterialPageRoute(builder: (_) => const LoginScreen());
+
+      case "/signup":
+        return MaterialPageRoute(builder: (_) => const SignupScreen());
 
       case "/home":
         return MaterialPageRoute(builder: (_) => const HomeScreen());

@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "568607878260",
+    "project_id": "volodeals",
+    "storage_bucket": "volodeals.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:568607878260:android:ba483d6c03a837576e3521",
+        "android_client_info": {
+          "package_name": "com.example.volo_consumer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "568607878260-i1st8236pn9vu2gp3sqrquumpdkctk4a.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.volo_consumer",
+            "certificate_hash": "1500315227e1d0dffab7956d56aefa41028eaa9a"
+          }
+        },
+        {
+          "client_id": "568607878260-ar1sqaqao16rqr9ugjh16jj267clskkm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCZSEZqAKvOB92W5nP-IAFr8Uz1I0-SeBQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "568607878260-ar1sqaqao16rqr9ugjh16jj267clskkm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

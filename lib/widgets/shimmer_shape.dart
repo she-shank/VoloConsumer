@@ -31,12 +31,15 @@ class ShimmerShape extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Shimmer.fromColors(
-      baseColor: Colors.grey[400]!,
-      highlightColor: Colors.grey[300]!,
+      baseColor: Colors.blue,
+      highlightColor: Colors.blueAccent[100]!,
       child: Container(
         width: width,
         height: height,
-        decoration: ShapeDecoration(shape: shapeBorder),
+        decoration: ShapeDecoration(
+          shape: shapeBorder,
+          color: Colors.red,
+        ),
       ),
     );
   }

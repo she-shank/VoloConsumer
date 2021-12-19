@@ -7,11 +7,13 @@ class SplashScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      backgroundColor: Color(0xffe1f5fe),
+    return Scaffold(
+      backgroundColor: Colors.pink[100],
       body: Center(
-        child: FlutterLogo(
-          size: 50,
+        child: Image.asset(
+          "assets/images/splash.png",
+          height: 241,
+          width: 189,
         ),
       ),
     );

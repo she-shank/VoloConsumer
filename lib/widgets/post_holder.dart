@@ -14,76 +14,103 @@ class PostHolder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.white,
-      child: Column(
-        children: [
-          Padding(
-            padding: EdgeInsets.fromLTRB(
-              10,
-              0,
-              10,
-              0,
-            ),
-            child: Row(children: [
-              GestureDetector(
-                onTap: () {},
-                child: Row(
-                  children: [
-                    CircleAvatar(
-                      radius: 4 * 10,
-                      backgroundImage: NetworkImage(post.mPhotoURL),
-                    ),
-                    SizedBox(width: 10),
-                    Text(post.mUsername),
-                  ],
-                ),
-              ),
-              const Expanded(child: SizedBox()),
-              Text(DateFormat("d MMM y").format(DateTime.parse(post.createDT))),
-            ]),
-          ),
-          Image.network(
-            post.pImageURL,
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.width,
-            loadingBuilder: (BuildContext context, Widget child,
-                ImageChunkEvent? loadingProgress) {
-              if (loadingProgress == null) {
-                return child;
-              }
-              return Center(
-                child: LinearProgressIndicator(
-                  value: loadingProgress.expectedTotalBytes != null
-                      ? loadingProgress.cumulativeBytesLoaded /
-                          loadingProgress.expectedTotalBytes!
-                      : null,
-                ),
-              );
-            },
-          ),
-          Row(
+    return Column(
+      children: [
+        Container(
+          color: Colors.white,
+          child: Column(
             children: [
-              IconButton(icon: Icon(Icons.thumb_up_outlined), onPressed: () {}),
-              SizedBox(
-                width: 10,
+              Padding(
+                padding: EdgeInsets.fromLTRB(
+                  10,
+                  10,
+                  10,
+                  0,
+                ),
+                child: Row(children: [
+                  GestureDetector(
+                    onTap: () {},
+                    child: Row(
+                      children: [
+                        CircleAvatar(
+                          radius: 30,
+                          backgroundImage: NetworkImage(post.mPhotoURL),
+                        ),
+                        SizedBox(width: 10),
+                        Text(
+                          post.mUsername,
+                          style: TextStyle(
+                            fontSize: 19,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const Expanded(child: SizedBox()),
+                  Text(
+                    DateFormat("d MMM y").format(post.createDT),
+                    style: TextStyle(fontSize: 17),
+                  ),
+                ]),
               ),
-              Text.rich(
-                TextSpan(
-                  children: <TextSpan>[
-                    TextSpan(
-                        text: post.likeCount.toString(),
-                        style: TextStyle(fontWeight: FontWeight.bold)),
-                    TextSpan(text: "people liked this deal")
-                  ],
+              Padding(
+                padding: EdgeInsets.all(0),
+                child: Image.network(
+                  post.pImageURL,
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.width,
+                  loadingBuilder: (BuildContext context, Widget child,
+                      ImageChunkEvent? loadingProgress) {
+                    if (loadingProgress == null) {
+                      return child;
+                    }
+                    return Center(
+                      child: LinearProgressIndicator(
+                        value: loadingProgress.expectedTotalBytes != null
+                            ? loadingProgress.cumulativeBytesLoaded /
+                                loadingProgress.expectedTotalBytes!
+                            : null,
+                      ),
+                    );
+                  },
                 ),
               ),
-              Expanded(child: SizedBox()),
-              Text("rating: ${post.mRating}/5.0")
+              Row(
+                children: [
+                  IconButton(
+                      icon: Icon(Icons.thumb_up_outlined), onPressed: () {}),
+                  // SizedBox(
+                  //   width: 10,
+                  // ),
+                  Text.rich(
+                    TextSpan(
+                      children: <TextSpan>[
+                        TextSpan(
+                            text: post.likeCount.toString(),
+                            style: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold)),
+                        TextSpan(
+                          text: " people liked this deal",
+                          style: TextStyle(fontSize: 17),
+                        )
+                      ],
+                    ),
+                  ),
+                  Expanded(child: SizedBox()),
+                  Text(
+                    "rating: ${post.mRating}/5.0",
+                    style: TextStyle(fontSize: 17),
+                  )
+                ],
+              ),
             ],
           ),
-        ],
-      ),
+        ),
+        SizedBox(
+          height: 20,
+        )
+      ],
     );
   }
 }
@@ -100,7 +127,7 @@ class PostHolderLoading extends StatelessWidget {
             ShimmerShape.circular(height: 40, width: 40),
             ShimmerShape(
                 height: 15,
-                width: 200,
+                width: 10,
                 shapeBorder: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(7))),
           ],
