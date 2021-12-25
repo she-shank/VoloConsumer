@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:either_dart/either.dart';
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -24,5 +25,7 @@ class ProfileCubit extends Cubit<ProfileState> {
     }, (right) {
       emit(ProfileState.ready(profile: right));
     });
+
+    void openMap(GeoPoint geopoint) {}
   }
 }

@@ -71,7 +71,7 @@ class DatabaseService {
       Query query = _db
           .collection('Posts')
           .orderBy('createDT', descending: true)
-          .limit(2);
+          .limit(5);
 
       if (category != null) {
         query = query.where('pCat', isEqualTo: category);

@@ -1,5 +1,4 @@
-import 'dart:ui';
-
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:volo_consumer/screens/home/logic/home_cubit.dart';
@@ -54,8 +53,7 @@ class HomeScreen extends StatelessWidget {
           children: <Widget>[
             Expanded(
               child: CustomScrollView(
-                physics: const BouncingScrollPhysics(
-                    parent: AlwaysScrollableScrollPhysics()),
+                physics: const BouncingScrollPhysics(),
                 slivers: <Widget>[
                   SliverAppBar(
                     backgroundColor: Colors.transparent,
@@ -192,39 +190,58 @@ class HomeScreen extends StatelessWidget {
                       );
                     },
                   ),
+                  CupertinoSliverRefreshControl(
+                    onRefresh: () async {},
+                  ),
                   BlocBuilder<HomeCubit, HomeState>(
                     bloc: context.read<HomeCubit>(),
                     builder: (context, state) {
                       return SliverList(
                         delegate: SliverChildBuilderDelegate(
                           (BuildContext context, int index) {
-                            print(index);
-                            return state.map(
-                                loading: (_) => Container(
-                                      margin: EdgeInsets.symmetric(
-                                        vertical: 10,
-                                        horizontal: 0,
-                                      ),
-                                      child: const PostHolderLoading(),
-                                    ),
-                                ready: (readyState) {
-                                  if (index == readyState.posts.length) {
-                                    print("len" +
-                                        readyState.posts.length.toString());
-                                    return LoadPostWidget(
-                                        requestPosts: context
-                                            .read<HomeCubit>()
-                                            .requestMorePosts);
-                                  }
-                                  return PostHolder(
-                                      post: readyState.posts[index]);
-                                },
-                                error: (_) => const PostHolderLoading());
+                            return Stack(
+                              children: [
+                                state.map(
+                                    loading: (_) => Container(
+                                          margin: const EdgeInsets.symmetric(
+                                            vertical: 10,
+                                            horizontal: 0,
+                                          ),
+                                          child: const PostHolderLoading(),
+                                        ),
+                                    ready: (readyState) {
+                                      if (index == readyState.posts.length) {
+                                        // context
+                                        //     .read<HomeCubit>()
+                                        //     .requestMorePosts();
+                                        return const Center(
+                                          child: Padding(
+                                            padding: EdgeInsets.all(20),
+                                            child: CircularProgressIndicator(
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                        );
+                                        // return LoadPostWidget(
+                                        //     requestPosts: context
+                                        //         .read<HomeCubit>()
+                                        //         .requestMorePosts);
+                                      } else {
+                                        return PostHolder(
+                                            post: readyState.posts[index]);
+                                      }
+                                    },
+                                    error: (_) => const PostHolderLoading()),
+                                Text(index.toString()),
+                              ],
+                            );
                           },
                           childCount: state.map(
                               loading: (_) => 2,
-                              ready: (readyState) =>
-                                  readyState.posts.length + 1,
+                              ready: (readyState) {
+                                readyState.posts.length;
+                                print("lkjh");
+                              },
                               error: (_) => 2),
                         ),
                       );

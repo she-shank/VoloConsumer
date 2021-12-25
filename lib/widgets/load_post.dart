@@ -15,7 +15,7 @@ class _LoadPostWidgetState extends State<LoadPostWidget> {
   @override
   void initState() {
     super.initState();
-    //widget.requestPosts();
+    widget.requestPosts();
   }
 
   @override

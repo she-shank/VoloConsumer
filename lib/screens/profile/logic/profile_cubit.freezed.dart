@@ -27,8 +27,8 @@ class _$ProfileStateTearOff {
     );
   }
 
-  Erro error({required String error}) {
-    return Erro(
+  Error error({required String error}) {
+    return Error(
       error: error,
     );
   }
@@ -65,21 +65,21 @@ mixin _$ProfileState {
   TResult map<TResult extends Object?>({
     required TResult Function(Loading value) loading,
     required TResult Function(Ready value) ready,
-    required TResult Function(Erro value) error,
+    required TResult Function(Error value) error,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(Loading value)? loading,
     TResult Function(Ready value)? ready,
-    TResult Function(Erro value)? error,
+    TResult Function(Error value)? error,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(Loading value)? loading,
     TResult Function(Ready value)? ready,
-    TResult Function(Erro value)? error,
+    TResult Function(Error value)? error,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -181,7 +181,7 @@ class _$Loading with DiagnosticableTreeMixin implements Loading {
   TResult map<TResult extends Object?>({
     required TResult Function(Loading value) loading,
     required TResult Function(Ready value) ready,
-    required TResult Function(Erro value) error,
+    required TResult Function(Error value) error,
   }) {
     return loading(this);
   }
@@ -191,7 +191,7 @@ class _$Loading with DiagnosticableTreeMixin implements Loading {
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(Loading value)? loading,
     TResult Function(Ready value)? ready,
-    TResult Function(Erro value)? error,
+    TResult Function(Error value)? error,
   }) {
     return loading?.call(this);
   }
@@ -201,7 +201,7 @@ class _$Loading with DiagnosticableTreeMixin implements Loading {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(Loading value)? loading,
     TResult Function(Ready value)? ready,
-    TResult Function(Erro value)? error,
+    TResult Function(Error value)? error,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -320,7 +320,7 @@ class _$Ready with DiagnosticableTreeMixin implements Ready {
   TResult map<TResult extends Object?>({
     required TResult Function(Loading value) loading,
     required TResult Function(Ready value) ready,
-    required TResult Function(Erro value) error,
+    required TResult Function(Error value) error,
   }) {
     return ready(this);
   }
@@ -330,7 +330,7 @@ class _$Ready with DiagnosticableTreeMixin implements Ready {
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(Loading value)? loading,
     TResult Function(Ready value)? ready,
-    TResult Function(Erro value)? error,
+    TResult Function(Error value)? error,
   }) {
     return ready?.call(this);
   }
@@ -340,7 +340,7 @@ class _$Ready with DiagnosticableTreeMixin implements Ready {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(Loading value)? loading,
     TResult Function(Ready value)? ready,
-    TResult Function(Erro value)? error,
+    TResult Function(Error value)? error,
     required TResult orElse(),
   }) {
     if (ready != null) {
@@ -359,26 +359,26 @@ abstract class Ready implements ProfileState {
 }
 
 /// @nodoc
-abstract class $ErroCopyWith<$Res> {
-  factory $ErroCopyWith(Erro value, $Res Function(Erro) then) =
-      _$ErroCopyWithImpl<$Res>;
+abstract class $ErrorCopyWith<$Res> {
+  factory $ErrorCopyWith(Error value, $Res Function(Error) then) =
+      _$ErrorCopyWithImpl<$Res>;
   $Res call({String error});
 }
 
 /// @nodoc
-class _$ErroCopyWithImpl<$Res> extends _$ProfileStateCopyWithImpl<$Res>
-    implements $ErroCopyWith<$Res> {
-  _$ErroCopyWithImpl(Erro _value, $Res Function(Erro) _then)
-      : super(_value, (v) => _then(v as Erro));
+class _$ErrorCopyWithImpl<$Res> extends _$ProfileStateCopyWithImpl<$Res>
+    implements $ErrorCopyWith<$Res> {
+  _$ErrorCopyWithImpl(Error _value, $Res Function(Error) _then)
+      : super(_value, (v) => _then(v as Error));
 
   @override
-  Erro get _value => super._value as Erro;
+  Error get _value => super._value as Error;
 
   @override
   $Res call({
     Object? error = freezed,
   }) {
-    return _then(Erro(
+    return _then(Error(
       error: error == freezed
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
@@ -389,8 +389,8 @@ class _$ErroCopyWithImpl<$Res> extends _$ProfileStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$Erro with DiagnosticableTreeMixin implements Erro {
-  const _$Erro({required this.error});
+class _$Error with DiagnosticableTreeMixin implements Error {
+  const _$Error({required this.error});
 
   @override
   final String error;
@@ -412,7 +412,7 @@ class _$Erro with DiagnosticableTreeMixin implements Erro {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is Erro &&
+            other is Error &&
             (identical(other.error, error) || other.error == error));
   }
 
@@ -421,8 +421,8 @@ class _$Erro with DiagnosticableTreeMixin implements Erro {
 
   @JsonKey(ignore: true)
   @override
-  $ErroCopyWith<Erro> get copyWith =>
-      _$ErroCopyWithImpl<Erro>(this, _$identity);
+  $ErrorCopyWith<Error> get copyWith =>
+      _$ErrorCopyWithImpl<Error>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -463,7 +463,7 @@ class _$Erro with DiagnosticableTreeMixin implements Erro {
   TResult map<TResult extends Object?>({
     required TResult Function(Loading value) loading,
     required TResult Function(Ready value) ready,
-    required TResult Function(Erro value) error,
+    required TResult Function(Error value) error,
   }) {
     return error(this);
   }
@@ -473,7 +473,7 @@ class _$Erro with DiagnosticableTreeMixin implements Erro {
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(Loading value)? loading,
     TResult Function(Ready value)? ready,
-    TResult Function(Erro value)? error,
+    TResult Function(Error value)? error,
   }) {
     return error?.call(this);
   }
@@ -483,7 +483,7 @@ class _$Erro with DiagnosticableTreeMixin implements Erro {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(Loading value)? loading,
     TResult Function(Ready value)? ready,
-    TResult Function(Erro value)? error,
+    TResult Function(Error value)? error,
     required TResult orElse(),
   }) {
     if (error != null) {
@@ -493,10 +493,10 @@ class _$Erro with DiagnosticableTreeMixin implements Erro {
   }
 }
 
-abstract class Erro implements ProfileState {
-  const factory Erro({required String error}) = _$Erro;
+abstract class Error implements ProfileState {
+  const factory Error({required String error}) = _$Error;
 
   String get error;
   @JsonKey(ignore: true)
-  $ErroCopyWith<Erro> get copyWith => throw _privateConstructorUsedError;
+  $ErrorCopyWith<Error> get copyWith => throw _privateConstructorUsedError;
 }

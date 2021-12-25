@@ -5,6 +5,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:volo_consumer/screens/home/logic/home_cubit.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:volo_consumer/utils/datamodels/post.dart';
 import 'package:volo_consumer/widgets/shimmer_shape.dart';
 
@@ -29,7 +31,8 @@ class PostHolder extends StatelessWidget {
                 ),
                 child: Row(children: [
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () =>
+                        context.read<HomeCubit>().openProfile(post.profileID),
                     child: Row(
                       children: [
                         CircleAvatar(
@@ -65,7 +68,9 @@ class PostHolder extends StatelessWidget {
                     if (loadingProgress == null) {
                       return child;
                     }
-                    return Center(
+                    return Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.width,
                       child: LinearProgressIndicator(
                         value: loadingProgress.expectedTotalBytes != null
                             ? loadingProgress.cumulativeBytesLoaded /
