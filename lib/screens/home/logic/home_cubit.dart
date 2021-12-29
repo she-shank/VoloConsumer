@@ -39,8 +39,14 @@ class HomeCubit extends Cubit<HomeState> {
 
   Future<Either<String, Tuple2<List<Post>, DocumentSnapshot>>> _getPosts(
       int? category, DocumentSnapshot? lastdoc) async {
+    int? firestoreQueryCategory;
+    if (category != null && category > 0) {
+      firestoreQueryCategory = category - 1;
+    } else {
+      firestoreQueryCategory = null;
+    }
     return await _db.getPostsPaginated(
-        category: (category != null) ? category - 1 : null, lastdoc: lastdoc);
+        category: firestoreQueryCategory, lastdoc: lastdoc);
   }
 
   void _initializeCubit() async {
@@ -49,11 +55,14 @@ class HomeCubit extends Cubit<HomeState> {
               scrollController.position.maxScrollExtent &&
           state.maybeMap(ready: (_) => true, orElse: () => false)) {
         print("loading more data...........");
+        _requestMorePosts();
       }
     });
+
     await _getPosts(null, null).fold((left) => print(left), (right) {
       _lastDoc = right.item2;
-      emit(HomeState.ready(posts: right.item1, cat: 0));
+      emit(HomeState.ready(
+          posts: right.item1, cat: 0, postLen: right.item1.length));
     });
   }
 
@@ -65,20 +74,17 @@ class HomeCubit extends Cubit<HomeState> {
   void onChange(Change<HomeState> change) {
     super.onChange(change);
     print(change);
-
-    print(change);
   }
 
-  void requestMorePosts() async {
+  void _requestMorePosts() async {
     List<Post>? result;
     int catt = state.maybeMap(
         ready: (ready) {
-          print(ready.cat);
           return ready.cat;
         },
         orElse: () => -1);
 
-    await _getPosts(catt != 0 ? catt : null, _lastDoc).fold((left) {
+    await _getPosts(catt, _lastDoc).fold((left) {
       print(left);
     }, (right) {
       result = right.item1;
@@ -88,10 +94,13 @@ class HomeCubit extends Cubit<HomeState> {
     state.maybeMap(
       ready: (Ready readyState) {
         List<Post>? templist = readyState.posts;
+        print("templist length : ${templist.length}");
         if (result != null) {
           templist.addAll(result!);
         }
-        emit(HomeState.ready(posts: templist, cat: catt));
+        print("templist length : ${templist.length}");
+        emit(HomeState.ready(
+            posts: templist, cat: catt, postLen: templist.length));
       },
       orElse: () {
         print("here bbbb");
@@ -105,11 +114,11 @@ class HomeCubit extends Cubit<HomeState> {
       return;
     }
     emit(const HomeState.loading());
-    int? nnewCatt = newCat == 0 ? null : newCat - 1;
 
-    await _getPosts(nnewCatt, null).fold((left) => print(left), (right) {
+    await _getPosts(newCat, null).fold((left) => print(left), (right) {
       _lastDoc = right.item2;
-      emit(HomeState.ready(posts: right.item1, cat: newCat));
+      emit(HomeState.ready(
+          posts: right.item1, cat: newCat, postLen: right.item1.length));
     });
   }
 
@@ -159,7 +168,6 @@ class HomeCubit extends Cubit<HomeState> {
         return const TextStyle(
           color: Colors.white,
           fontSize: 17,
-          fontWeight: FontWeight.bold,
         );
       } else {
         return const TextStyle(

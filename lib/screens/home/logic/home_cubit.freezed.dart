@@ -21,10 +21,12 @@ class _$HomeStateTearOff {
     return const Loading();
   }
 
-  Ready ready({required List<Post> posts, required int cat}) {
+  Ready ready(
+      {required List<Post> posts, required int cat, required int postLen}) {
     return Ready(
       posts: posts,
       cat: cat,
+      postLen: postLen,
     );
   }
 
@@ -43,21 +45,21 @@ mixin _$HomeState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
-    required TResult Function(List<Post> posts, int cat) ready,
+    required TResult Function(List<Post> posts, int cat, int postLen) ready,
     required TResult Function(String error) error,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function(List<Post> posts, int cat)? ready,
+    TResult Function(List<Post> posts, int cat, int postLen)? ready,
     TResult Function(String error)? error,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function(List<Post> posts, int cat)? ready,
+    TResult Function(List<Post> posts, int cat, int postLen)? ready,
     TResult Function(String error)? error,
     required TResult orElse(),
   }) =>
@@ -140,7 +142,7 @@ class _$Loading implements Loading {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
-    required TResult Function(List<Post> posts, int cat) ready,
+    required TResult Function(List<Post> posts, int cat, int postLen) ready,
     required TResult Function(String error) error,
   }) {
     return loading();
@@ -150,7 +152,7 @@ class _$Loading implements Loading {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function(List<Post> posts, int cat)? ready,
+    TResult Function(List<Post> posts, int cat, int postLen)? ready,
     TResult Function(String error)? error,
   }) {
     return loading?.call();
@@ -160,7 +162,7 @@ class _$Loading implements Loading {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function(List<Post> posts, int cat)? ready,
+    TResult Function(List<Post> posts, int cat, int postLen)? ready,
     TResult Function(String error)? error,
     required TResult orElse(),
   }) {
@@ -213,7 +215,7 @@ abstract class Loading implements HomeState {
 abstract class $ReadyCopyWith<$Res> {
   factory $ReadyCopyWith(Ready value, $Res Function(Ready) then) =
       _$ReadyCopyWithImpl<$Res>;
-  $Res call({List<Post> posts, int cat});
+  $Res call({List<Post> posts, int cat, int postLen});
 }
 
 /// @nodoc
@@ -229,6 +231,7 @@ class _$ReadyCopyWithImpl<$Res> extends _$HomeStateCopyWithImpl<$Res>
   $Res call({
     Object? posts = freezed,
     Object? cat = freezed,
+    Object? postLen = freezed,
   }) {
     return _then(Ready(
       posts: posts == freezed
@@ -239,6 +242,10 @@ class _$ReadyCopyWithImpl<$Res> extends _$HomeStateCopyWithImpl<$Res>
           ? _value.cat
           : cat // ignore: cast_nullable_to_non_nullable
               as int,
+      postLen: postLen == freezed
+          ? _value.postLen
+          : postLen // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -246,16 +253,19 @@ class _$ReadyCopyWithImpl<$Res> extends _$HomeStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$Ready implements Ready {
-  const _$Ready({required this.posts, required this.cat});
+  const _$Ready(
+      {required this.posts, required this.cat, required this.postLen});
 
   @override
   final List<Post> posts;
   @override
   final int cat;
+  @override
+  final int postLen;
 
   @override
   String toString() {
-    return 'HomeState.ready(posts: $posts, cat: $cat)';
+    return 'HomeState.ready(posts: $posts, cat: $cat, postLen: $postLen)';
   }
 
   @override
@@ -264,12 +274,13 @@ class _$Ready implements Ready {
         (other.runtimeType == runtimeType &&
             other is Ready &&
             const DeepCollectionEquality().equals(other.posts, posts) &&
-            (identical(other.cat, cat) || other.cat == cat));
+            (identical(other.cat, cat) || other.cat == cat) &&
+            (identical(other.postLen, postLen) || other.postLen == postLen));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(posts), cat);
+  int get hashCode => Object.hash(
+      runtimeType, const DeepCollectionEquality().hash(posts), cat, postLen);
 
   @JsonKey(ignore: true)
   @override
@@ -280,32 +291,32 @@ class _$Ready implements Ready {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
-    required TResult Function(List<Post> posts, int cat) ready,
+    required TResult Function(List<Post> posts, int cat, int postLen) ready,
     required TResult Function(String error) error,
   }) {
-    return ready(posts, cat);
+    return ready(posts, cat, postLen);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function(List<Post> posts, int cat)? ready,
+    TResult Function(List<Post> posts, int cat, int postLen)? ready,
     TResult Function(String error)? error,
   }) {
-    return ready?.call(posts, cat);
+    return ready?.call(posts, cat, postLen);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function(List<Post> posts, int cat)? ready,
+    TResult Function(List<Post> posts, int cat, int postLen)? ready,
     TResult Function(String error)? error,
     required TResult orElse(),
   }) {
     if (ready != null) {
-      return ready(posts, cat);
+      return ready(posts, cat, postLen);
     }
     return orElse();
   }
@@ -346,10 +357,14 @@ class _$Ready implements Ready {
 }
 
 abstract class Ready implements HomeState {
-  const factory Ready({required List<Post> posts, required int cat}) = _$Ready;
+  const factory Ready(
+      {required List<Post> posts,
+      required int cat,
+      required int postLen}) = _$Ready;
 
   List<Post> get posts;
   int get cat;
+  int get postLen;
   @JsonKey(ignore: true)
   $ReadyCopyWith<Ready> get copyWith => throw _privateConstructorUsedError;
 }
@@ -416,7 +431,7 @@ class _$Error implements Error {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
-    required TResult Function(List<Post> posts, int cat) ready,
+    required TResult Function(List<Post> posts, int cat, int postLen) ready,
     required TResult Function(String error) error,
   }) {
     return error(this.error);
@@ -426,7 +441,7 @@ class _$Error implements Error {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function(List<Post> posts, int cat)? ready,
+    TResult Function(List<Post> posts, int cat, int postLen)? ready,
     TResult Function(String error)? error,
   }) {
     return error?.call(this.error);
@@ -436,7 +451,7 @@ class _$Error implements Error {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function(List<Post> posts, int cat)? ready,
+    TResult Function(List<Post> posts, int cat, int postLen)? ready,
     TResult Function(String error)? error,
     required TResult orElse(),
   }) {
