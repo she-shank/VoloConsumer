@@ -8,6 +8,8 @@ import 'package:tuple/tuple.dart';
 //TODO: get all liked deals
 //TODO: update database to support geocoding
 
+const int postPaginationLimit = 4;
+
 class DatabaseService {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
@@ -71,7 +73,7 @@ class DatabaseService {
       Query query = _db
           .collection('Posts')
           .orderBy('createDT', descending: true)
-          .limit(4);
+          .limit(postPaginationLimit);
 
       if (category != null) {
         query = query.where('pCat', isEqualTo: category);
@@ -82,6 +84,9 @@ class DatabaseService {
       }
 
       var querySnapShot = await query.get();
+
+      //TODO: return failure if querysnapshot.docs is empty
+      if (querySnapShot.docs.isEmpty) {}
 
       return Right(Tuple2<List<Post>, DocumentSnapshot>(
           querySnapShot.docs

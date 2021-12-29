@@ -7,6 +7,7 @@ import 'package:get_it/get_it.dart';
 import 'package:volo_consumer/utils/datamodels/datamodels.dart';
 import 'package:volo_consumer/services/database_service.dart';
 import 'package:volo_consumer/services/authentication_service.dart';
+import 'package:volo_consumer/utils/launcher.dart';
 
 part 'profile_state.dart';
 part 'profile_cubit.freezed.dart';
@@ -26,6 +27,8 @@ class ProfileCubit extends Cubit<ProfileState> {
       emit(ProfileState.ready(profile: right));
     });
 
-    void openMap(GeoPoint geopoint) {}
+    void openMap(GeoPoint geopoint) {
+      URLLauncher.openMapWithGeoPoint(geoPoint: geopoint);
+    }
   }
 }
