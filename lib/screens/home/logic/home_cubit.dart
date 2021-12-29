@@ -29,12 +29,11 @@ class HomeCubit extends Cubit<HomeState> {
   final GlobalKey<StfulListTileState> logOutListTileKey =
       GlobalKey<StfulListTileState>();
 
+  ScrollController scrollController = ScrollController();
+
   String get currentUsername =>
       _auth.activeUser != null ? _auth.activeUser!.username : "";
   Enduser get currentUser => _auth.activeUser!;
-
-  // String get currentUsername => "Rahul";
-  // Enduser get currentUser => tempUser;
 
   DocumentSnapshot? _lastDoc;
 
@@ -45,11 +44,17 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   void _initializeCubit() async {
+    scrollController.addListener(() {
+      if (scrollController.position.pixels ==
+              scrollController.position.maxScrollExtent &&
+          state.maybeMap(ready: (_) => true, orElse: () => false)) {
+        print("loading more data...........");
+      }
+    });
     await _getPosts(null, null).fold((left) => print(left), (right) {
       _lastDoc = right.item2;
       emit(HomeState.ready(posts: right.item1, cat: 0));
     });
-    await Future.delayed(const Duration(seconds: 5));
   }
 
   HomeCubit() : super(const HomeState.loading()) {
@@ -60,26 +65,6 @@ class HomeCubit extends Cubit<HomeState> {
   void onChange(Change<HomeState> change) {
     super.onChange(change);
     print(change);
-    // Ready? _readyState;
-    // change.currentState.maybeMap(ready: (Ready val) {
-    //   _readyState = val;
-    // }, orElse: () {
-    //   return;
-    // });
-
-    // Loading? _loadingState;
-    // change.nextState.maybeMap(loading: (Loading val) {
-    //   _loadingState = val;
-    // }, orElse: () {
-    //   return;
-    // });
-
-    // if (change.currentState is Ready && change.nextState is Loading) {
-    //   if (_readyState!.cat != _loadingState!.cat) {
-    //     _savedStates[_readyState!.cat] = _readyState!;
-    //     _savedLastDocs[_readyState!.cat] = _lastDoc;
-    //   }
-    // }
 
     print(change);
   }
@@ -120,16 +105,16 @@ class HomeCubit extends Cubit<HomeState> {
       return;
     }
     emit(const HomeState.loading());
-    await _getPosts(newCat, null).fold((left) => print(left), (right) {
+    int? nnewCatt = newCat == 0 ? null : newCat - 1;
+
+    await _getPosts(nnewCatt, null).fold((left) => print(left), (right) {
       _lastDoc = right.item2;
       emit(HomeState.ready(posts: right.item1, cat: newCat));
     });
   }
 
   void openProfile(String pID) async {
-    print("here");
     _nav.pushNamed(routeName: '/profile', arguments: pID);
-    print("here222222222222");
   }
 
   //TODO: complete like functinoality

@@ -50,6 +50,7 @@ class PostHolder extends StatelessWidget {
                       ],
                     ),
                   ),
+                  Text(post.pCat.toString()),
                   const Expanded(child: SizedBox()),
                   Text(
                     DateFormat("d MMM y").format(post.createDT),
